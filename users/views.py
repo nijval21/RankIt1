@@ -274,6 +274,66 @@ class CRLAvailInstiView(APIView):
             return Response({'error': 'Sorry no institutes are available for this rank and branch.'}, status=404)
         except Exception as e:
             return HttpResponse(f'An error occurred: {e}', status=500)
+        
+class CatAvailInstiView(APIView):
+    def get(self, request):
+        user_id = get_user_from_token(request)
+        if isinstance(user_id, Response):  
+            return user_id
+        year = request.query_params.get('year')
+        category = request.query_params.get('category')
+        cat_rank = request.query_params.get('category_rank')
+        branch = request.query_params.get('branch')
+        ModelClass = apps.get_model('users', 'josaa' + str(year))
+        try:
+            if branch == 'ALL':
+                if category == 'ALL':
+                    results = ModelClass.objects.annotate(
+                        close_rank_int=Cast('close_rank', IntegerField())
+                    ).filter(
+                        close_rank_int__gte=cat_rank
+                    ).order_by('open_rank')
+                else:
+                    results = ModelClass.objects.annotate(
+                        close_rank_int=Cast('close_rank', IntegerField())
+                    ).filter(
+                        close_rank_int__gte=cat_rank,
+                        seat_type=category
+                    ).order_by('open_rank')
+            else:
+                if category == 'ALL':
+                    results = ModelClass.objects.annotate(
+                        close_rank_int=Cast('close_rank', IntegerField())
+                    ).filter(
+                        close_rank_int__gte=cat_rank,
+                        academic_program=branch
+                    ).order_by('open_rank')
+                else:
+                    results = ModelClass.objects.annotate(
+                        close_rank_int=Cast('close_rank', IntegerField())
+                    ).filter(
+                        close_rank_int__gte=cat_rank,
+                        seat_type=category,
+                        academic_program=branch
+                    ).order_by('open_rank')
+            results_data = list(results.values())
+            if len(results_data)==0:
+                return Response({'message': 'Sorry no institutes are available for this rank and branch.'}, status=404)
+            return JsonResponse(results_data, safe=False)
+            
+        except ModelClass.DoesNotExist:
+            return Response({'error': 'Sorry no institutes are available for this rank and branch.'}, status=404)
+        except Exception as e:
+            return HttpResponse(f'An error occurred: {e}', status=500)
+        
+class Branches(APIView):
+    def get(self, request):
+        try:
+            result = josaa2023.objects.values('academic_program').distinct()
+            results_data = list(result)
+            return JsonResponse(results_data, safe=False)
+        except Exception as e:
+            return HttpResponse(f'An error occured: {e}', status=500)
 
 def generate_jwt_token(user):
     payload = {
