@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import SignupView, LoginView, admin_only_view, CRLAvailInstiView, CatAvailInstiView, Branches
+from .views import SignupView, LoginView, admin_only_view, CRLAvailInstiView, CatAvailInstiView, Branches, TopBranchesYearWise
 
 
 urlpatterns = [
@@ -9,4 +9,5 @@ urlpatterns = [
     path('crlavailinsti/', CRLAvailInstiView.as_view(), name='crlavailinsti'),
     path('catavailinsti/', CatAvailInstiView.as_view(), name='catavailinsti'),
     path('branches/', Branches.as_view(), name='branches'),
+    path('topbranchesyearwise/', TopBranchesYearWise.as_view(), name='topbranchesyearwise'),
 ]
