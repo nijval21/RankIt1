@@ -326,6 +326,25 @@ class CatAvailInstiView(APIView):
         except Exception as e:
             return HttpResponse(f'An error occurred: {e}', status=500)
         
+class TopPicksYearWise(APIView):
+    def get(self, request):
+        year = request.query_params.get('year')
+        ModelClass = apps.get_model('users', 'josaa' + str(year))
+        try:
+            results = ModelClass.objects.filter(
+            seat_type='OPEN', gender='Gender-Neutral'
+            ).values("academic_program").annotate(
+                open_rank_int=Cast('open_rank', FloatField()),
+                close_rank_int=Cast('close_rank', FloatField())
+            ).annotate(
+                avg_rank=Avg(ExpressionWrapper((F('open_rank_int') + F('close_rank_int')) / 2, output_field=FloatField()))
+            ).order_by('avg_rank')
+            results3 = results.values('academic_program', 'avg_rank', 'institute name')
+            results_data = list(results3)
+            return JsonResponse(results_data, safe=False)
+        except Exception as e:
+            return HttpResponse(f'An error occurred: {e}', status=500)
+        
 class YearlyTrend(APIView):
     def get(self, request):
 
