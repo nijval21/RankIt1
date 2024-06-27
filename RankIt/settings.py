@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-7lpe@cc7565796%hf4eyt=+u%s2e6@hd0q02z3t$mlr_@+p2#t'
+SECRET_KEY = 'django-insecure-1!yma4af3w0qp-fj6a^@i^rvm(0rmb6i$qyocq!+g_o&zilvvs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -53,6 +53,8 @@ REST_FRAMEWORK = {
 SECRET_KEY = 'as;kfjjhskjfhvjkhfcidkfbrjrehfbkfjb'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -87,6 +89,9 @@ CORS_ALLOW_HEADERS = [
     "x-csrftoken",
     "x-requested-with",
 ]
+
+
+
 
 ROOT_URLCONF = 'RankIt.urls'
 
