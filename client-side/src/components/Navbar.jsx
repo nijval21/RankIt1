@@ -58,20 +58,31 @@ const Navbar = () => {
               </div>
 
               <div className={`navmenu ${menuOpen ? 'block' : 'hidden'} w-full flex-wrap justify-end items-center mb-16 space-y-8 p-6 border border-gray-100 rounded-3xl shadow-2xl shadow-gray-300/20 bg-white dark:bg-gray-800 lg:space-y-0 lg:p-0 lg:m-0 lg:flex md:flex-nowrap lg:bg-transparent lg:w-7/12 lg:shadow-none dark:shadow-none dark:border-gray-700 lg:border-0`}>
-                <ModeToggle />
                 <div className="text-gray-600 dark:text-gray-300 lg:pr-4">
-                  <ul className="space-y-6 tracking-wide font-medium text-base lg:text-sm lg:flex lg:space-y-0">
+                  <ul className="space-y-6 tracking-wide font-medium text-base lg:text-sm lg:flex lg:space-y-0 justify-center items-center text-center">
                     <li>
                       <div onClick={() => router.push('/')} className="block md:px-4 transition hover:cursor-pointer hover:text-primary dark:hover:text-primaryLight">
                         <span>Home</span>
                       </div>
                     </li>
                     {isLoggedIn && (
-                      <li>
-                        <div onClick={() => router.push('/colleges')} className="block md:px-4 transition hover:cursor-pointer hover:text-primary dark:hover:text-primaryLight">
-                          <span>Colleges Analysis</span>
-                        </div>
-                      </li>
+                      <>
+                        <li>
+                          <div onClick={() => router.push('/colleges')} className="block md:px-4 transition hover:cursor-pointer hover:text-primary dark:hover:text-primaryLight">
+                            <span>Colleges Analysis</span>
+                          </div>
+                        </li>
+                        <li>
+                          <div onClick={() => router.push('/analysis')} className="block md:px-4 transition hover:cursor-pointer hover:text-primary dark:hover:text-primaryLight">
+                            <span>Yearly Trend</span>
+                          </div>
+                        </li>
+                        <li>
+                          <div onClick={() => router.push('/topbranches')} className="block md:px-4 transition hover:cursor-pointer hover:text-primary dark:hover:text-primaryLight">
+                            <span>Top Branches</span>
+                          </div>
+                        </li>
+                      </>
                     )}
                     <li>
                       <div onClick={() => router.push('/news')} className="block md:px-4 transition duration-200 hover:text-primary hover:cursor-pointer hover:dark:hover:text-primaryLight">
@@ -87,53 +98,15 @@ const Navbar = () => {
                     )}
                   </ul>
                 </div>
-                {isLoggedIn && (
-                  menuOpen ? (
-                    <ul className="space-y-6 tracking-wide font-medium text-base lg:text-sm lg:flex lg:space-y-0">
-                      <li>
-                        <div onClick={() => router.push('/about')} className="block md:px-4 transition hover:cursor-pointer hover:text-primary dark:hover:text-primaryLight">
-                          <span>About Us</span>
-                        </div>
-                      </li>
-                      <li>
-                        <div onClick={() => router.push('/analysis')} className="block md:px-4 transition hover:cursor-pointer hover:text-primary dark:hover:text-primaryLight">
-                          <span>Yearly Trend</span>
-                        </div>
-                      </li>
-                      <li>
-                        <div onClick={() => router.push('/topbranches')} className="block md:px-4 transition hover:cursor-pointer hover:text-primary dark:hover:text-primaryLight">
-                          <span>Top Branches</span>
-                        </div>
-                      </li>
-                    </ul>
-                  ) : (
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <div className="block md:px-4 transition hover:text-primary dark:hover:text-primaryLight">
-                          <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => router.push('/about')}>About Us</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => router.push('/analysis')}>Yearly Trend</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => router.push('/topbranches')}>Top Branches</DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  )
-                )}
-                {isLoggedIn ? (
-                  <div className="w-full pl-3 space-y-2 border-primary/10 dark:border-gray-700 flex flex-col -ml-1 sm:flex-row lg:space-y-0 md:w-max lg:border-l">
-                    <button onClick={handleLogOut} className="relative flex h-9 ml-auto items-center justify-center sm:px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary dark:before:bg-primaryLight before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95">
+                <div className="pl-3 space-y-2 border-primary/10 dark:border-gray-700 flex flex-col sm:flex-row lg:space-y-0 md:w-max lg:border-l">
+                  {isLoggedIn ? (
+                    <button onClick={handleLogOut} className="w-full relative flex h-9 ml-auto items-center justify-center sm:px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary dark:before:bg-primaryLight before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95">
                       <span className="relative text-sm font-semibold text-white dark:text-gray-900">Logout</span>
                     </button>
-                  </div>
-                ) : (
-                  <AuthDailog />
-                )}
+                  ) : (
+                    <AuthDailog />
+                  )}
+                </div>
               </div>
             </div>
           </div>
